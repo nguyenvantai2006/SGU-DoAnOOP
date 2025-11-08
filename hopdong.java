@@ -51,12 +51,29 @@ class hopdong{
     }
     Scanner sc = new Scanner(System.in);
     public void nhap(){
-         System.out.println("Nhap ma hop dong: ");
+        String h="^HDONG[0-9]{3}$";
+        while(true){
+        System.out.println("Nhap ma hop dong (co dinh dang HDONGXXX VD: HDONG001 ): ");
         mahd = sc.nextLine();
-        System.out.println("Nhap ma tour: ");
+        if(mahd.matches(h)){
+            break;
+        }
+        System.out.println("Sai dinh dang ma hop dong, vui long nhap lai.");
+        }
+        String t="^T[0-9]{3}$";
+        while(true)
+        {System.out.println("Nhap ma tour (co dinh dang TXXX VD: T001) :");
         matour = sc.nextLine();
-        System.out.println("Nhap ma khach hang: ");
+        if(matour.matches(t)){break;}
+        System.out.println("Sai dinh dang ma tou, vui long nhap lai.");
+        }
+        String k="KH[0-9]{3}$";
+        while (true)
+        {System.out.println("Nhap ma khach hang (co dinh dang KHXXX) VD: KH001 :");
         makh = sc.nextLine();
+        if(makh.matches(k)){break;}
+        System.out.println("Sai dinh dang ma khach hang, vui long nhap lai.");
+        }
         System.out.println("Nhap dieu khoan: ");
         dieukhoan = sc.nextLine();
     }

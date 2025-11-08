@@ -6,7 +6,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 class dskhachhang {
@@ -275,4 +274,76 @@ class dskhachhang {
             e.printStackTrace();
         }
     }
-}
+
+
+
+
+    //THỐNG KÊ LỚN 2 
+    
+  public void thongketisuathoadon2025(dshoadon dshd) {
+    System.out.println("TI SUAT HOA DON THEO KHACH HANG NAM 2025:");
+    System.out.printf("%-10s %-15s %-10s\n", "Khach Hang", "Tong tien", "Ti le(%)");
+
+    if (dshd == null || dshd.getN() == 0) {
+        System.out.println("Khong co du lieu hoa don.");
+        return;
+    }
+
+    String[] makh = new String[100];  
+    long[] tienkh = new long[100];     
+    int sokh = 0;                    
+    long tongtien = 0;
+
+   
+    for (int i = 0; i < dshd.getN(); i++) {
+        hoadon hd = dshd.getDs()[i];
+        if (hd == null) continue;
+        if (hd.getNgaylap().getYear() == 2025) {
+            String ma = hd.getMakh();
+            long tien = hd.getTongtien();
+            tongtien += tien;
+
+           
+            int vitri = -1;
+            for (int j = 0; j < sokh; j++) {
+                if (makh[j].equalsIgnoreCase(ma)) {
+                    vitri = j;
+                    break;
+                }
+            }
+
+           
+            if (vitri == -1) {
+                makh[sokh] = ma;
+                tienkh[sokh] = tien;
+                sokh++;
+            } else {
+                tienkh[vitri] += tien; 
+            }
+        }
+    }
+
+    if (tongtien == 0) {
+        System.out.println("Khong co hoa don nao trong nam 2025.");
+        return;
+    }
+
+    for (int i = 0; i < sokh - 1; i++) {
+        for (int j = i + 1; j < sokh; j++) {
+            if (makh[i].compareToIgnoreCase(makh[j]) > 0) {
+                String tamMa = makh[i];
+                makh[i] = makh[j];
+                makh[j] = tamMa;
+
+                long tamTien = tienkh[i];
+                tienkh[i] = tienkh[j];
+                tienkh[j] = tamTien;
+            }
+        }
+    }
+
+    for (int i = 0; i < sokh; i++) {
+        double tile = (tienkh[i] * 100.0) / tongtien;
+        System.out.printf("%-10s %-15d %.2f%%\n", makh[i], tienkh[i], tile);
+    }
+}}

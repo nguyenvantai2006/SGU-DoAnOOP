@@ -74,17 +74,35 @@ class nhahang {
 
     
     public void nhap() {
-        System.out.print("Nhap ma nha hang: ");
+        String n="^NH[0-9]{3}$";
+        while(true)
+        {System.out.print("Nhap ma nha hang (co dinh dang NHXXX VD: NH001) :");
         manh = sc.nextLine();
+        if(manh.matches(n)){break;}
+        System.out.println("Loi ma nha hang khong dung dinh dang, vui long nhap lai.");
+        }
+
         System.out.print("Nhap ten nha hang: ");
         tennh = sc.nextLine();
         System.out.print("Nhap dia chi: ");
         diachi = sc.nextLine();
-        System.out.print("Nhap so dien thoai: ");
+
+        String s="^0[0-9]{9}";
+        while(true){
+        System.out.println("Nhap so dien thoai: ");
         sodt = sc.nextLine();
-        System.out.print("Nhap ma ke hoach tour (khoa ngoai): ");
-        makhtour = sc.nextLine();
-    }
+        if(sodt.matches(s)){break;}
+        System.out.println("Nhap sai dinh dang so dien thoai, vui long nhap lai");
+        }
+
+        String mt="^KHT[0-9]{3}$";
+        while(true){
+            System.out.println("Nhap ma ke hoach tour (co dinh dang KHTXXX, VD: KHT001)");
+            makhtour=sc.nextLine();
+            if(makhtour.matches(mt)){break;}
+            System.out.println("Loi dinh dang, vui long nhap lai.");
+        }
+        }
 
     
     public void xuat() {

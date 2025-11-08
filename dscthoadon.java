@@ -5,13 +5,13 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
  class dscthoadon{
-    private cthd[] ds;
+    private cthoadon[] ds;
     private int N;
     public dscthoadon(){
-        ds = new cthd[100];
+        ds = new cthoadon[100];
         N=0;
     }
-    public dscthoadon(cthd[] ds,int n){
+    public dscthoadon(cthoadon[] ds,int n){
         this.ds=ds;
         this.N=n;
     }
@@ -19,13 +19,13 @@ import java.io.BufferedReader;
         this.ds=dsct.ds;
         this.N=dsct.N;
     }
-    public cthd[] getDs() {
+    public cthoadon[] getDs() {
         return ds;
     }
     public int getN() {
         return N;
     }
-    public void setDs(cthd[] ds) {
+    public void setDs(cthoadon[] ds) {
         this.ds = ds;
     }
     public void setN(int N) {
@@ -34,13 +34,13 @@ import java.io.BufferedReader;
     Scanner sc = new Scanner(System.in);
 
 
-    public void nhapDsCTHD(){
+    public void nhapDscthoadon(){
         System.out.println("Nhap so luong chi tiet hoa don: ");
         N = Integer.parseInt(sc.nextLine());
-        ds=new cthd[N];
+        ds=new cthoadon[N];
         for(int i=0;i<N;i++){
             System.out.println("Nhap thong tin chi tiet hoa don thu "+(i+1)+": ");
-            ds[i]=new cthd();
+            ds[i]=new cthoadon();
             ds[i].nhap();
         }
         N=ds.length;
@@ -48,7 +48,7 @@ import java.io.BufferedReader;
 
 
 
-    public void xuatDsCTHD(){
+    public void xuatDscthoadon(){
         System.out.printf("%-15s %-15s %-15s\n","Ma HD","Ma KH","Ma Ke Hoach Tour");
         for(int i=0;i<N;i++){
             ds[i].xuat();
@@ -67,7 +67,7 @@ import java.io.BufferedReader;
 
 
 
-    public cthd timts(String mahd){
+    public cthoadon timts(String mahd){
         int k=timtheoma(mahd);
         if(k==-1){
         return null;}
@@ -93,14 +93,14 @@ public void timTheoMakh(String makh) {
 }
 
 
-    public void themcthdcots(cthd k){
+    public void themcthoadoncots(cthoadon k){
         ds=Arrays.copyOf(ds,N+1);
-        ds[N]=new cthd(k);
+        ds[N]=new cthoadon(k);
         N++;
         System.out.println("Da them xong");
     }
 
-public void xoaCTHDcots(String mahd) {
+public void xoacthoadoncots(String mahd) {
     int idx = timtheoma(mahd);
     if (idx == -1) {
         System.out.println(" Khong tim thay chi tiet hoa don voi ma: " + mahd);
@@ -141,7 +141,7 @@ public int thongKeMaHD(String mahd) {
 
 
 
-public void suaCTHDkots() {
+public void suacthoadonkots() {
     System.out.print("Nhap ma hoa don can sua: ");
     String mahd = sc.nextLine();
     int idx = timtheoma(mahd);
@@ -151,7 +151,7 @@ public void suaCTHDkots() {
         return;
     }
 
-    cthd ct = ds[idx];
+    cthoadon ct = ds[idx];
     int chon;
     do {
         System.out.println("\n===== SUA CHI TIET hoa don =====");
@@ -183,7 +183,7 @@ public void suaCTHDkots() {
 }
 
 
-public void suaCTHDcots(String mahd) {
+public void suacthoadoncots(String mahd) {
     int idx = timtheoma(mahd);
 
     if (idx == -1) {
@@ -191,7 +191,7 @@ public void suaCTHDcots(String mahd) {
         return;
     }
 
-    cthd ct = ds[idx];
+    cthoadon ct = ds[idx];
     int chon;
     do {
         System.out.println("\n===== SUA CHI TIET hoa don (THAM SO) =====");
@@ -226,7 +226,7 @@ public void suaCTHDcots(String mahd) {
         try {
             BufferedReader br=new BufferedReader(new FileReader(file));
             int n=0;
-            ds= new cthd[100];
+            ds= new cthoadon[100];
             String line="";
             while((line=br.readLine())!=null){
                 String[] part=line.split("\\|");
@@ -236,7 +236,7 @@ public void suaCTHDcots(String mahd) {
                     String makh=part[1];
                     String makhtour=part[2];
 
-                    ds[n++]=new cthd(mahd, makh, makhtour);
+                    ds[n++]=new cthoadon(mahd, makh, makhtour);
                 }
 
             }
@@ -253,7 +253,7 @@ public void suaCTHDcots(String mahd) {
         try{
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             for(int i=0;i<N;i++){
-                cthd c=ds[i];
+                cthoadon c=ds[i];
                 String line="";
 
                 line=String.join("|",

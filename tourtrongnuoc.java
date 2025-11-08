@@ -43,8 +43,7 @@ public class tourtrongnuoc extends tour {
     }
 
     @Override
-    public void xuat() {
-        super.xuat();
-        System.out.printf("%-15s %-15s\n", tinhthanh, dacsan);
+    public String getThongtinmorong() {
+        return tinhthanh + " " + dacsan;
     }
 }

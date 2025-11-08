@@ -135,25 +135,25 @@ class dsHDV {
             return;
         }
 
-        System.out.print("Nhap ma tour can thong ke: ");
-        String maTour = sc.nextLine();
+        System.out.print("Nhap ma ke hoach tour can thong ke: ");
+        String makht = sc.nextLine();
 
         int count = 0;
-        System.out.println("\n=== DANH SACH HDV THUOC TOUR: " + maTour + " ===");
+        System.out.println("\n=== DANH SACH HDV THUOC TOUR: " + makht + " ===");
         System.out.printf("%-10s %-10s %-10s %-10s %-15s %-10s %-15s %-20s%n",
                 "MaHDV", "MaTour", "Ho", "Ten", "NgaySinh", "GioiTinh", "SoDT", "DiaChi");
 
         for (int i = 0; i < N; i++) {
-            if (ds[i].getMakhtour().equalsIgnoreCase(maTour)) {
+            if (ds[i].getMakhtour().equalsIgnoreCase(makht)) {
                 ds[i].xuat();
                 count++;
             }
         }
 
         if (count == 0) {
-            System.out.println(" Khong co HDV nao thuoc tour co ma: " + maTour);
+            System.out.println(" Khong co HDV nao thuoc tour co ma: " + makht);
         } else {
-            System.out.println(" Tong so HDV phu trach tour '" + maTour + "': " + count);
+            System.out.println(" Tong so HDV phu trach tour '" + makht + "': " + count);
         }
     }
 
@@ -161,6 +161,70 @@ class dsHDV {
     public void suaHDV() {
         System.out.print("Nhap ma HDV can sua: ");
         String maHDV = sc.nextLine();
+        int idx = timTheoMa(maHDV);
+        if (idx == -1) {
+            System.out.println(" Khong tim thay HDV co ma: " + maHDV);
+            return;
+        }
+
+        hdv h = ds[idx];
+        int chon;
+        do {
+            System.out.println("\n===== MENU SUA THONG TIN HDV =====");
+            System.out.println("1. Sua ma ke hoach tour");
+            System.out.println("2. Sua ho ten");
+            System.out.println("3. Sua ngay sinh");
+            System.out.println("4. Sua so dien thoai");
+            System.out.println("5. Sua gioi tinh");
+            System.out.println("6. Sua dia chi");
+            System.out.println("0. Thoat sua");
+            System.out.print("Nhap lua chon: ");
+            chon = Integer.parseInt(sc.nextLine());
+
+            switch (chon) {
+                case 1:
+                    System.out.print("Nhap ma ke hoach tour moi: ");
+                    h.setMakhtour(sc.nextLine());
+                    break;
+                case 2:
+                    System.out.print("Nhap ho moi: ");
+                    h.setHo(sc.nextLine());
+                    System.out.print("Nhap ten moi: ");
+                    h.setTen(sc.nextLine());
+                    break;
+                case 3:
+                    System.out.print("Nhap ngay sinh moi (dd/MM/yyyy): ");
+                    try {
+                        h.setNgaysinh(LocalDate.parse(sc.nextLine(), kehoachtour.df));
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Sai dinh dang ngay!");
+                    }
+                    break;
+                case 4:
+                    System.out.print("Nhap so dien thoai moi: ");
+                    h.setSdt(sc.nextLine());
+                    break;
+                case 5:
+                    System.out.print("Nhap gioi tinh moi: ");
+                    h.setGioitinh(sc.nextLine());
+                    break;
+                case 6:
+                    System.out.print("Nhap dia chi moi: ");
+                    h.setDiachi(sc.nextLine());
+                    break;
+                case 0:
+                    System.out.println(" Thoat sua thong tin.");
+                    break;
+                default:
+                    System.out.println(" Lua chon khong hop le!");
+            }
+        } while (chon != 0);
+
+        ds[idx] = h;
+        System.out.println(" Da cap nhat thong tin HDV co ma: " + maHDV);
+    }
+
+    public void suaHDV(String maHDV) {
         int idx = timTheoMa(maHDV);
         if (idx == -1) {
             System.out.println(" Khong tim thay HDV co ma: " + maHDV);

@@ -2,10 +2,8 @@ import java.util.Scanner;
 import java.util.Arrays;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.time.LocalDate;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.time.format.DateTimeParseException;
 
 class dsctkhtour {
     private ctkhtour[] ds;
@@ -24,7 +22,7 @@ class dsctkhtour {
     }
 
     public dsctkhtour(dsctkhtour dsct) {
-        this.ds = dsct.ds;
+        this.ds = Arrays.copyOf(dsct.ds, N);
         this.N = dsct.N;
     }
 
@@ -62,6 +60,7 @@ class dsctkhtour {
         }
     }
 
+
     public int timTheoMa(String mact) {
         for (int i = 0; i < N; i++) {
             if (ds[i].getMact().equals(mact)) {
@@ -77,23 +76,7 @@ class dsctkhtour {
             return ds[idx];
         return null;
     }
- 
-    public void timTheoNgayChi(LocalDate ngaychi) { 
-        boolean found = false;
-        System.out.println("\n=== KET QUA TIM KIEM THEO NGAY CHI: " + ngaychi.format(kehoachtour.df) + " ===");
-        System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s%n","Ma ctkh tour", "Ma KH Tour", "Ngay Chi", "Tien An", "Tien O", "Tien Di Lai");
-
-        for (int i = 0; i < N; i++) {
-            if (ds[i].getNgaychi().equals(ngaychi)) { 
-                ds[i].xuat();
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println(" Khong tim thay ke hoach tour nao co ngay chi: " + ngaychi.format(kehoachtour.df));
-        }
-    }
-
+  
     public void themCots(ctkhtour k) {
         ds = Arrays.copyOf(ds, N + 1);
         ds[N] = new ctkhtour(k);
@@ -122,16 +105,25 @@ class dsctkhtour {
         }
         System.out.print("Nhap ma ke hoach tour can thong ke: ");
         String makhtour = sc.nextLine();
+        int ta=0;
+        int to=0;
+        int td=0;
+        int tien=0;
         int count = 0;
         for (int i = 0; i < N; i++) {
             if (ds[i].getMakhtour().equalsIgnoreCase(makhtour)) {
+                ta+=ds[i].getTienan();
+                to+=ds[i].getTieno();
+                td+=ds[i].getTiendilai();
                 count++;
             }
         }
         if (count == 0) {
             System.out.println(" Khong tim thay ke hoach tour co ma: " + makhtour);
         } else {
-            System.out.println(" Ma ke hoach tour '" + makhtour + "' xuat hien " + count + " lan trong danh sach.");
+            tien=ta+to+td;
+            System.out.println(" Ma ke hoach tour '" + makhtour + "' co " + count + " chi tiet.");
+            System.out.println("Tong tien chi phi cho toan bo ke hoach tour nay la "+tien);
         }
     }
 
@@ -150,10 +142,8 @@ class dsctkhtour {
             }
         }
     }
-   
-    public void suaKhtour() {
-        System.out.print("Nhap ma chi tiet ke hoach tour can sua: ");
-        String mact = sc.nextLine();
+
+    public void suaKhtour(String mact) {
         int idx = timTheoMa(mact); 
 
         if (idx == -1) {
@@ -165,10 +155,9 @@ class dsctkhtour {
         int chon;
         do {
             System.out.println("\n=== CHON MUC CAN SUA ===");
-            System.out.println("1. Ngay chi");
-            System.out.println("2. Tien an");
-            System.out.println("3. Tien o");
-            System.out.println("4. Tien di lai");
+            System.out.println("1. Tien an");
+            System.out.println("2. Tien o");
+            System.out.println("3. Tien di lai");
             System.out.println("0. Thoat sua");
             System.out.print("Nhap lua chon: ");
             try {
@@ -179,30 +168,16 @@ class dsctkhtour {
 
             switch (chon) {
                 case 1:
-                    while(true){
-                        System.out.print("Nhap ngay chi moi (dd/MM/yyyy): ");
-                        String ngay = sc.nextLine();
-                        try {
-                            LocalDate ngaymoi = LocalDate.parse(ngay, kehoachtour.df);
-                            k.setNgaychi(ngaymoi);
-                            System.out.println(" Da sua ngay chi!");
-                            break;
-                        } catch (DateTimeParseException e) {
-                            System.out.println("Sai dinh dang ngay!");
-                        }
-                    }
-                    break;
-                case 2:
                     int tienan = nhapSoNguyen("Nhap tien an moi: "); 
                     k.setTienan(tienan);
                     System.out.println(" Da sua tien an!");
                     break;
-                case 3:
+                case 2:
                     int tieno = nhapSoNguyen("Nhap tien o moi: "); 
                     k.setTieno(tieno);
                     System.out.println(" Da sua tien o!");
                     break;
-                case 4:
+                case 3:
                     int tiendilai = nhapSoNguyen("Nhap tien di lai moi: "); 
                     k.setTiendilai(tiendilai);
                     System.out.println(" Da sua tien di lai!");
@@ -215,7 +190,7 @@ class dsctkhtour {
             }
         } while (chon != 0);
     }
-    
+
     public void docFile(String file){
         try {
             BufferedReader br=new BufferedReader(new FileReader(file));
@@ -226,15 +201,14 @@ class dsctkhtour {
             while((line=br.readLine())!=null){
                 String[] part=line.split("\\|");
                 
-                if(part.length>=6){ 
+                if(part.length>=5){ 
                     String mact=part[0];
                     String makhtour=part[1];
-                    LocalDate ngaychi=LocalDate.parse(part[2], kehoachtour.df);
-                    int tienan=Integer.parseInt(part[3]);
-                    int tieno=Integer.parseInt(part[4]);
-                    int tiendilai=Integer.parseInt(part[5]);
-
-                    ds[n++]=new ctkhtour(mact,makhtour,ngaychi,tienan,tieno, tiendilai);
+                    int tienan=Integer.parseInt(part[2]);
+                    int tieno=Integer.parseInt(part[3]);
+                    int tiendilai=Integer.parseInt(part[4]);
+                    int ngaychi=Integer.parseInt(part[5]);
+                    ds[n++]=new ctkhtour(mact, makhtour, tienan, tieno, tiendilai,ngaychi);
                 }
             }
             N=n;
@@ -257,7 +231,6 @@ class dsctkhtour {
 
                 line=String.join("|",
                 c.getMakhtour(),
-                c.getNgaychi().format(kehoachtour.df),
                 String.valueOf(c.getTienan()),
                 String.valueOf(c.getTieno()),
                 String.valueOf(c.getTiendilai()));
@@ -271,22 +244,5 @@ class dsctkhtour {
             System.out.println("Loi ghi file "+e.getMessage());
             e.printStackTrace();
         }
-    }
-    
-    public void linkData(dskehoachtour DSKHT) {
-        if (DSKHT == null || DSKHT.getN() == 0) {
-            System.out.println("Loi: Khong the lien ket CTKH tour vi DSKHT rong.");
-            return;
-        }
-        int count = 0;
-        for (int i = 0; i < N; i++) {
-            String makhtour_id = ds[i].getMakhtour();
-            kehoachtour kht_obj = DSKHT.timKHT(makhtour_id); 
-            if (kht_obj != null) {
-                ds[i].setKehoachtour(kht_obj);
-                count++;
-            }
-        }
-        System.out.println("Da lien ket xong: " + count + "/" + N + " chi tiet KHT.");
     }
 }

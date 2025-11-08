@@ -129,7 +129,7 @@ public class dshoadon {
         }
     }
 
-    public void suaHD(String mahoadon) {
+    public void suaHD(String mahoadon, dskehoachtour dskht) { 
         int idx = timTheoMa(mahoadon);
         if (idx == -1) {
             System.out.println(" Khong tim thay hoa don co ma: " + mahoadon);
@@ -137,6 +137,8 @@ public class dshoadon {
         }
 
         hoadon h = ds[idx];
+        int soVeCu = h.getSove(); 
+        
         int chon;
         do {
             System.out.println("\n===== SUA THONG TIN HOA DON =====");
@@ -146,7 +148,12 @@ public class dshoadon {
             System.out.println("4. Sua tong tien");
             System.out.println("0. Thoat");
             System.out.print("Nhap lua chon: ");
-            chon = Integer.parseInt(sc.nextLine());
+            
+            try {
+                chon = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                chon = -1;
+            }
 
             switch (chon) {
                 case 1:
@@ -159,11 +166,40 @@ public class dshoadon {
                     break;
                 case 3:
                     System.out.print("Nhap so ve moi: ");
-                    h.setSove(Integer.parseInt(sc.nextLine()));
+                    try {
+                        int soVeMoi = Integer.parseInt(sc.nextLine());
+                        if (soVeMoi < 0) {
+                            System.out.println("So ve phai la so duong!");
+                            break;
+                        }
+                        
+                        kehoachtour kht = dskht.timKHT(h.getMakhtour());
+                        if (kht == null) {
+                            System.out.println("Loi: Ke hoach tour nay khong ton tai!");
+                            break;
+                        }
+                        
+                        int chenhLech = soVeMoi - soVeCu;
+                        
+                        if (chenhLech > kht.getSoveconlai()) {
+                            System.out.println("Loi: Khong du ve. " + kht.getMakhtour() + " chi con " + kht.getSoveconlai() + " ve.");
+                            System.out.println("Ban dang co gang them " + chenhLech + " ve (Tu " + soVeCu + " len " + soVeMoi + ").");
+                        } else {
+                            h.setSove(soVeMoi);
+                            System.out.println("Da cap nhat so ve.");
+                        }
+                        
+                    } catch (NumberFormatException e) {
+                        System.out.println("Vui long nhap so!");
+                    }
                     break;
                 case 4:
                     System.out.print("Nhap tong tien moi: ");
-                    h.setTongtien(Integer.parseInt(sc.nextLine()));
+                    try {
+                        h.setTongtien(Integer.parseInt(sc.nextLine()));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Vui long nhap so!");
+                    }
                     break;
                 case 0:
                     System.out.println(" Thoat sua thong tin.");
@@ -176,6 +212,8 @@ public class dshoadon {
         ds[idx] = h;
         System.out.println(" Da cap nhat thong tin hoa don co ma: " + mahoadon);
     }
+
+
     public void docFile(String file){
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -231,4 +269,5 @@ public class dshoadon {
             e.printStackTrace();
         }
     }
+    
 }

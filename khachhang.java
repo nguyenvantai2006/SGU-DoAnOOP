@@ -91,8 +91,13 @@ class khachhang {
     }
 
     public void nhap() {
-        System.out.println("Nhap ma khach hang: ");
+        String k="KH[0-9]{3}$";
+        while (true)
+        {System.out.println("Nhap ma khach hang (co dinh dang KHXXX) VD: KH001 :");
         makh = sc.nextLine();
+        if(makh.matches(k)){break;}
+        System.out.println("Sai dinh dang ma khach hang, vui long nhap lai.");
+        }
         System.out.println("Nhap ho: ");
         ho = sc.nextLine();
         System.out.println("Nhap ten: ");
@@ -112,8 +117,13 @@ class khachhang {
         gioitinh = sc.nextLine();
         System.out.println("Nhap dia chi: ");
         diachi = sc.nextLine();
+        String s="^0[0-9]{9}";
+        while(true){
         System.out.println("Nhap so dien thoai: ");
         sdt = sc.nextLine();
+        if(sdt.matches(s)){break;}
+        System.out.println("Nhap sai dinh dang so dien thoai, vui long nhap lai");
+        }
     }
 
     public void xuat() {

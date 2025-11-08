@@ -43,8 +43,7 @@ public class tournuocngoai extends tour {
     }
 
     @Override
-    public void xuat() {
-        super.xuat();
-        System.out.printf("%-15s %-15s\n", quocgia, ngoaite);
+    public String getThongtinmorong() {
+        return quocgia + " " + ngoaite;
     }
 }

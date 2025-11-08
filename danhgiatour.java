@@ -79,8 +79,13 @@ class danhgiatour {
 
  
     public void nhap() {
-        System.out.print("Nhap ma danh gia: ");
+        String mdg="^DG[0-9]{3}";
+        while(true)
+        {System.out.print("Nhap ma danh gia: ");
         madg = sc.nextLine();
+        if(madg.matches(mdg)){break;}
+        System.out.println("Ma danh gia ko dung dinh dang, vui long nhap lai.");
+        }
         System.out.print("Nhap ma ke hoach tour (khoa ngoai): ");
         makhtour = sc.nextLine();
         System.out.print("Nhap ten khach hang: ");

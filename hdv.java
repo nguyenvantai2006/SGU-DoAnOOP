@@ -64,10 +64,21 @@ class hdv {
 
     
     public void nhap() {
-        System.out.print("Nhap ma HDV: ");
+        String h="HDV[0-9]{3}";
+        while(true)
+        {System.out.println("Nhap ma huong dan vien: ");
         mahdv = sc.nextLine();
-        System.out.print("Nhap ma ke hoach tour: ");
-        makhtour = sc.nextLine();
+        if(mahdv.matches(h)){break;}
+        System.out.println("Nhap sai dinh dang ma huong dan vien, vui long nhap lai.");
+        }
+        String mt="^KHT[0-9]$";
+        while(true){
+            System.out.println("Nhap ma ke hoach tour (co dinh dang KHTXXX, VD: KHT001)");
+            makhtour=sc.nextLine();
+            if(makhtour.matches(mt)){break;}
+            System.out.println("Loi dinh dang, vui long nhap lai.");
+        }
+
         System.out.print("Nhap ho: ");
         ho = sc.nextLine();
         System.out.print("Nhap ten: ");
@@ -87,8 +98,14 @@ class hdv {
         gioitinh = sc.nextLine();
         System.out.print("Nhap dia chi: ");
         diachi = sc.nextLine();
-        System.out.print("Nhap so dien thoai: ");
+        
+        String s="^0[0-9]{9}";
+        while(true){
+        System.out.println("Nhap so dien thoai: ");
         sdt = sc.nextLine();
+        if(sdt.matches(s)){break;}
+        System.out.println("Nhap sai dinh dang so dien thoai, vui long nhap lai");
+        }
     }
 
     
